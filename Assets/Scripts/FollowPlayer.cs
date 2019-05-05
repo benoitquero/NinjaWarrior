@@ -7,13 +7,27 @@ public class FollowPlayer : MonoBehaviour {
     public Transform player;
     public Vector3 offset;
     public Vector3 angleOffset;
+    public Transform transitionPoint;
+
+    private bool isTranslated;
 
 
     public float moveSmoothSpeed = 2.0f;
     public float angleSmoothSpeed = 2.0f;
 
+    void Start() {
+        isTranslated = false;
+    }
+
     // Update is called once per frame
     void LateUpdate () {
+
+        Vector3 dist = player.position - transitionPoint.position;
+        if (!isTranslated && dist.sqrMagnitude < 2.0f) {
+            isTranslated = true;
+            offset.x += 7f;
+            offset.y += 5f;
+        }
 
         //Smooth camera movement
         Vector3 desiredPosition = player.position + offset;
